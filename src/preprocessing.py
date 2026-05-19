@@ -38,7 +38,11 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
     # Supprimer les doublons
     initial_len = len(df)
     df = df.drop_duplicates()
-    print(f"✅ Doublons supprimés : {initial_len - len(df)}")
+    print(f" Doublons supprimés : {initial_len - len(df)}")
+    # Renommer les colonnes pour compatibilité XGBoost
+    df.columns = df.columns.str.replace(r"[\[\]<]", "", regex=True).str.strip()
+    print(f" Colonnes renommées : {df.columns.tolist()}")
+
 
     return df
 
@@ -54,7 +58,7 @@ def encode_features(df: pd.DataFrame) -> pd.DataFrame:
     """
     le = LabelEncoder()
     df["Type"] = le.fit_transform(df["Type"])  # H=0, L=1, M=2
-    print(f"✅ Encodage Type : {dict(zip(le.classes_, le.transform(le.classes_)))}")
+    print(f" Encodage Type : {dict(zip(le.classes_, le.transform(le.classes_)))}")
     return df
 
 
@@ -83,8 +87,8 @@ def split_data(
         X, y, test_size=test_size, random_state=random_state, stratify=y
     )
 
-    print(f"✅ Train : {X_train.shape[0]} lignes | Test : {X_test.shape[0]} lignes")
-    print(f"✅ Taux pannes train : {y_train.mean()*100:.2f}% | test : {y_test.mean()*100:.2f}%")
+    print(f" Train : {X_train.shape[0]} lignes | Test : {X_test.shape[0]} lignes")
+    print(f" Taux pannes train : {y_train.mean()*100:.2f}% | test : {y_test.mean()*100:.2f}%")
 
     return X_train, X_test, y_train, y_test
 
@@ -112,7 +116,7 @@ def scale_features(
 
     # Sauvegarder le scaler pour la phase d'inférence
     joblib.dump(scaler, f"{output_dir}/scaler.pkl")
-    print(f"✅ Scaler sauvegardé dans {output_dir}/scaler.pkl")
+    print(f" Scaler sauvegardé dans {output_dir}/scaler.pkl")
 
     return X_train_scaled, X_test_scaled
 
@@ -145,7 +149,7 @@ def save_processed_data(
         **{"Machine failure": y_test.values}
     ).to_csv(f"{output_dir}/test.csv", index=False)
 
-    print(f"✅ Données sauvegardées dans {output_dir}/")
+    print(f" Données sauvegardées dans {output_dir}/")
 
 
 if __name__ == "__main__":
@@ -158,4 +162,4 @@ if __name__ == "__main__":
         X_train_sc, X_test_sc, y_train, y_test,
         feature_names=X_train.columns.tolist()
     )
-    print("\n✅ Prétraitement terminé !")
+    print(" Prétraitement terminé !")
