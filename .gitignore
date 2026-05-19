@@ -4,5 +4,5 @@ __pycache__/
 .env
 mlruns/
 models/
-data/raw/
+data/raw/*.csv
 data/processed/
