@@ -33,7 +33,8 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
         DataFrame nettoyé.
     """
     # Supprimer colonnes non pertinentes pour le modèle
-    df = df.drop(columns=["UDI", "Product ID", "TWF", "HDF", "PWF", "OSF", "RNF"])
+    cols_to_drop = [c for c in ["UDI", "Product ID", "TWF", "HDF", "PWF", "OSF", "RNF"] if c in df.columns]
+    df = df.drop(columns=cols_to_drop)
 
     # Supprimer les doublons
     initial_len = len(df)
