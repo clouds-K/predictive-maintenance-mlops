@@ -6,3 +6,6 @@ mlruns/
 models/
 data/raw/*.csv
 data/processed/
+
+mlflow.db
+*.db
