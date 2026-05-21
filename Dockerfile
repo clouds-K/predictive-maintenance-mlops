@@ -2,11 +2,9 @@ FROM python:3.10-slim
 
 WORKDIR /app
 
-COPY requirements.txt .
-RUN pip install --no-cache-dir fastapi uvicorn scikit-learn xgboost joblib numpy pydantic
-
-COPY models/ ./models/
 COPY api/ ./api/
+
+RUN pip install --no-cache-dir fastapi uvicorn scikit-learn xgboost joblib numpy pydantic
 
 EXPOSE 8000
 
