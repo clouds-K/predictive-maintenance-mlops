@@ -33,7 +33,11 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
         DataFrame nettoyé.
     """
     # Supprimer colonnes non pertinentes pour le modèle
-    cols_to_drop = [c for c in ["UDI", "Product ID", "TWF", "HDF", "PWF", "OSF", "RNF"] if c in df.columns]
+    cols_to_drop = [
+        c
+        for c in ["UDI", "Product ID", "TWF", "HDF", "PWF", "OSF", "RNF"]
+        if c in df.columns
+    ]
     df = df.drop(columns=cols_to_drop)
 
     # Supprimer les doublons
@@ -43,7 +47,6 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
     # Renommer les colonnes pour compatibilité XGBoost
     df.columns = df.columns.str.replace(r"[\[\]<]", "", regex=True).str.strip()
     print(f" Colonnes renommées : {df.columns.tolist()}")
-
 
     return df
 
@@ -89,7 +92,9 @@ def split_data(
     )
 
     print(f" Train : {X_train.shape[0]} lignes | Test : {X_test.shape[0]} lignes")
-    print(f" Taux pannes train : {y_train.mean()*100:.2f}% | test : {y_test.mean()*100:.2f}%")
+    print(
+        f" Taux pannes train : {y_train.mean()*100:.2f}% | test : {y_test.mean()*100:.2f}%"
+    )
 
     return X_train, X_test, y_train, y_test
 
@@ -160,7 +165,6 @@ if __name__ == "__main__":
     X_train, X_test, y_train, y_test = split_data(df)
     X_train_sc, X_test_sc = scale_features(X_train, X_test)
     save_processed_data(
-        X_train_sc, X_test_sc, y_train, y_test,
-        feature_names=X_train.columns.tolist()
+        X_train_sc, X_test_sc, y_train, y_test, feature_names=X_train.columns.tolist()
     )
     print(" Prétraitement terminé !")

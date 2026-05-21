@@ -10,8 +10,12 @@ import mlflow.sklearn
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import (
-    accuracy_score, precision_score, recall_score,
-    f1_score, roc_auc_score, classification_report
+    accuracy_score,
+    precision_score,
+    recall_score,
+    f1_score,
+    roc_auc_score,
+    classification_report,
 )
 from xgboost import XGBClassifier
 from pathlib import Path
@@ -152,21 +156,19 @@ if __name__ == "__main__":
         },
         "RandomForest": {
             "model": RandomForestClassifier(
-                n_estimators=100, class_weight="balanced",
-                random_state=42, n_jobs=-1
+                n_estimators=100, class_weight="balanced", random_state=42, n_jobs=-1
             ),
             "params": {"n_estimators": 100, "class_weight": "balanced"},
         },
         "XGBoost": {
             "model": XGBClassifier(
-                n_estimators=100, scale_pos_weight=9661/339,
-                random_state=42, eval_metric="logloss",
-                verbosity=0
+                n_estimators=100,
+                scale_pos_weight=9661 / 339,
+                random_state=42,
+                eval_metric="logloss",
+                verbosity=0,
             ),
-            "params": {
-                "n_estimators": 100,
-                "scale_pos_weight": round(9661/339, 2)
-            },
+            "params": {"n_estimators": 100, "scale_pos_weight": round(9661 / 339, 2)},
         },
     }
 

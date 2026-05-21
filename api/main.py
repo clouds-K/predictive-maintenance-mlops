@@ -9,7 +9,6 @@ import joblib
 import numpy as np
 from pathlib import Path
 
-
 app = FastAPI(
     title="Predictive Maintenance API",
     description="API MLOps - Prédiction de pannes AI4I 2020",
@@ -39,7 +38,9 @@ def load_model() -> None:
 class PredictionRequest(BaseModel):
     """Schéma de la requête de prédiction."""
 
-    type_machine: int = Field(..., ge=0, le=2, description="Type machine: H=0, L=1, M=2")
+    type_machine: int = Field(
+        ..., ge=0, le=2, description="Type machine: H=0, L=1, M=2"
+    )
     air_temperature: float = Field(..., description="Température air (K)")
     process_temperature: float = Field(..., description="Température process (K)")
     rotational_speed: float = Field(..., description="Vitesse rotation (rpm)")
@@ -99,14 +100,18 @@ def predict(request: PredictionRequest) -> PredictionResponse:
     if model is None or scaler is None:
         raise HTTPException(status_code=503, detail="Modèle non chargé")
 
-    features = np.array([[
-        request.type_machine,
-        request.air_temperature,
-        request.process_temperature,
-        request.rotational_speed,
-        request.torque,
-        request.tool_wear,
-    ]])
+    features = np.array(
+        [
+            [
+                request.type_machine,
+                request.air_temperature,
+                request.process_temperature,
+                request.rotational_speed,
+                request.torque,
+                request.tool_wear,
+            ]
+        ]
+    )
 
     features_scaled = scaler.transform(features)
     prediction = int(model.predict(features_scaled)[0])

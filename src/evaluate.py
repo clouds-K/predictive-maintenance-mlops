@@ -47,9 +47,14 @@ def evaluate(
     # Matrice de confusion
     cm = confusion_matrix(y_test, y_pred)
     plt.figure(figsize=(6, 5))
-    sns.heatmap(cm, annot=True, fmt="d", cmap="Blues",
-                xticklabels=["Normal", "Panne"],
-                yticklabels=["Normal", "Panne"])
+    sns.heatmap(
+        cm,
+        annot=True,
+        fmt="d",
+        cmap="Blues",
+        xticklabels=["Normal", "Panne"],
+        yticklabels=["Normal", "Panne"],
+    )
     plt.title("Matrice de Confusion - XGBoost")
     plt.ylabel("Réel")
     plt.xlabel("Prédit")

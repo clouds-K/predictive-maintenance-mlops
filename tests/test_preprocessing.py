@@ -17,17 +17,19 @@ from preprocessing import clean_data, encode_features, split_data, scale_feature
 @pytest.fixture
 def sample_df() -> pd.DataFrame:
     """Fixture : DataFrame de test simulant AI4I 2020."""
-    return pd.DataFrame({
-        "UDI": range(1, 101),
-        "Product ID": [f"M{i}" for i in range(100)],
-        "Type": ["L"] * 50 + ["M"] * 30 + ["H"] * 20,
-        "Air temperature K": np.random.normal(300, 2, 100),
-        "Process temperature K": np.random.normal(310, 1, 100),
-        "Rotational speed rpm": np.random.normal(1500, 100, 100),
-        "Torque Nm": np.random.normal(40, 5, 100),
-        "Tool wear min": np.random.randint(0, 250, 100),
-        "Machine failure": [0] * 97 + [1] * 3,
-    })
+    return pd.DataFrame(
+        {
+            "UDI": range(1, 101),
+            "Product ID": [f"M{i}" for i in range(100)],
+            "Type": ["L"] * 50 + ["M"] * 30 + ["H"] * 20,
+            "Air temperature K": np.random.normal(300, 2, 100),
+            "Process temperature K": np.random.normal(310, 1, 100),
+            "Rotational speed rpm": np.random.normal(1500, 100, 100),
+            "Torque Nm": np.random.normal(40, 5, 100),
+            "Tool wear min": np.random.randint(0, 250, 100),
+            "Machine failure": [0] * 97 + [1] * 3,
+        }
+    )
 
 
 def test_clean_data_removes_useless_columns(sample_df: pd.DataFrame) -> None:

@@ -62,11 +62,20 @@ def plot_eda(df: pd.DataFrame, output_dir: str = "data/processed") -> None:
     print("✅ Figure 1 sauvegardée : target_distribution.png")
 
     # 2. Corrélation entre features numériques
-    numeric_cols = ["Air temperature [K]", "Process temperature [K]",
-                    "Rotational speed [rpm]", "Torque [Nm]", "Tool wear [min]"]
+    numeric_cols = [
+        "Air temperature [K]",
+        "Process temperature [K]",
+        "Rotational speed [rpm]",
+        "Torque [Nm]",
+        "Tool wear [min]",
+    ]
     plt.figure(figsize=(8, 6))
-    sns.heatmap(df[numeric_cols + ["Machine failure"]].corr(),
-                annot=True, fmt=".2f", cmap="coolwarm")
+    sns.heatmap(
+        df[numeric_cols + ["Machine failure"]].corr(),
+        annot=True,
+        fmt=".2f",
+        cmap="coolwarm",
+    )
     plt.title("Matrice de corrélation")
     plt.tight_layout()
     plt.savefig(f"{output_dir}/correlation_matrix.png")
